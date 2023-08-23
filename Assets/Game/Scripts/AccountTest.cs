@@ -82,7 +82,12 @@ namespace Game {
   public interface IScenes : ISystem { }
   public interface IUIs : ISystem { }
 
-  public class Account : IData {
+  public interface IAccount : IData {
+    uint Id { get; set; }
+    string Name { get; set; }
+  }
+
+  public class Account : IAccount {
     public uint Id { get; set; }
     public string Name { get; set; }
   }

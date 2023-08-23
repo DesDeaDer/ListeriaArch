@@ -1,11 +1,24 @@
-﻿namespace ListeriaArch {
+﻿using System;
+using System.Collections.Generic;
 
-  namespace Configurator {
-    namespace Links {
-      public interface ILinksConfigurator {
-        void Register<T>();
-        void Register<D, T>();
-      }
-    }
+namespace ListeriaArch.Configurator.Links {
+  public interface ILinksConfigurator {
+    IEnumerable<ILinkConfigurator> Links { get; }
+
+    void Register(ILinkConfigurator link);
+  }
+
+  public interface ILinkConfigurator {
+    IEnumerable<Type> Links { get; }
+
+    void Register(Type link);
+  }
+
+  public class Link : ILinkConfigurator {
+    public IEnumerable<Type> Links => throw new NotImplementedException();
+    
+    List<Type> links = new();
+  
+    public void Register(Type type) => links.Add(type);
   }
 }

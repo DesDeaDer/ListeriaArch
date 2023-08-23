@@ -26,6 +26,7 @@ public class CoreTest : MonoBehaviour {
           .Maybe<IData>()
           .Maybe<ISystem>()))
       .Links(links => links
+        .Add<IAccount>()
         .Add<IAccountTest>()
         .Add<IScenes>()
       .Add<IUIs>()

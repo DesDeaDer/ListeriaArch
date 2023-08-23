@@ -11,7 +11,7 @@ namespace ListeriaArch.FluidAPI {
 
       return c;
     }
-    
+
     public static IContextConfigurator Links(this IContextConfigurator c, Action<ILinksConfigurator> proc) {
       proc(c.Links);
 
@@ -32,8 +32,8 @@ namespace ListeriaArch.FluidAPI {
 
     public static IContext Build(this IContextConfigurator c) {
       var context = Listeria.Context();
-
-      //TODO proc c
+      
+      //TODO
 
       context.ResolveAll();
 

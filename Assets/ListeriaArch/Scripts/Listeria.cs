@@ -6,11 +6,6 @@ using ListeriaArch.Configurator.ResolversRuntime;
 
 namespace ListeriaArch {
   public static class Listeria {
-    public static IContext Context() {
-
-      return new Context();
-    }
-
     public static IContextConfigurator Create() => new ContextConfigurator() {
       Layers = ConfigurateLayers(),
       Links = ConfigurateLinks(),
@@ -18,10 +13,12 @@ namespace ListeriaArch {
       ResolversRuntime = ConfigurateResolversRuntime(),
     };
 
+    public static IContext Context() => new Context();
+
     public static ILinksConfigurator ConfigurateLinks() => new LinksConfigurator();
 
     public static IResolversConfigurator ConfigurateResolvers() => new ResolversConfigurator();
-    
+
     public static IResolversRuntimeConfigurator ConfigurateResolversRuntime() => new ResolversRuntimeConfigurator();
 
     public static ILayersConfigurator ConfigurateLayers() => new LayersConfigurator();
@@ -41,5 +38,7 @@ namespace ListeriaArch {
     public static IFilterRule ConfigurateFilterRuleMaybe<T>() => new LayerRuleMaybe() {
       Type = typeof(T),
     };
+
+    public static ILinkConfigurator ConfigurateLink() => new Link();
   }
 }
