@@ -1,17 +1,17 @@
 ﻿using Game;
 using ListeriaArch;
-using ListeriaArch.Configurator;
+using ListeriaArch.FluidAPI;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 
 public class CoreTest : MonoBehaviour {
 
   IContext context;
 
   void OnEnable() {
-    context = Listeria.ArchStrucure()
+    context = Listeria
+      .Create()
       .Layers(layers => layers
-        .Layer<IData>() //TODO auto load data
+        .Layer<IData>()
         .Layer<IProcess>(rules => rules
           .Maybe<IModel>(models => models
             .Without<IData>())

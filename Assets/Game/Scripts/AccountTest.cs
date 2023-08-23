@@ -1,4 +1,5 @@
 ﻿using ListeriaArch;
+using ListeriaArch.Injector;
 using Logger;
 
 namespace Game {

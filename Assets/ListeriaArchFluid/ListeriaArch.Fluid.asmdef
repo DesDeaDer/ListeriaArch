@@ -1,0 +1,16 @@
+{
+    "name": "ListeriaArch.Fluid",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2fea0d9615b3fa3458c7e7015085964f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
