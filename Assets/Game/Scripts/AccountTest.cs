@@ -1,8 +1,9 @@
-﻿using ListeriaArch;
+﻿using System;
+using ListeriaArch;
 using Logger;
 
 namespace Game {
-  public class GameTest : IGame, IEnable, IDisable {
+  public class AccountTest : IAccountTest, IEnable, IDisable {
     [Inject] IStorage Storage { get; set; }
     [Inject] IScenes Scenes { get; set; }
     [Inject] INetwork Network { get; set; }
@@ -10,22 +11,39 @@ namespace Game {
     [Inject] Account Account { get; set; }
 
     public void Enable() {
-      "GameTest Enable".Log("+");
+      "Enable".Log("AccountTest");
       
       Account.Id.Log();
       Account.Name.Log();
-
-
-      "GameTest Enable".Log("-");
     }
 
     public void Disable() {
-      "GameTest Disable".Log("+");
+      "Disable".Log("AccountTest");
 
-      
-      "GameTest Disable".Log("-");
+      Account.Id.Log();
+      Account.Name.Log();
     }
   }
+
+  public class AccountUpdate : IAccountUpdate, IEnable, IDisable {
+    [Inject] IStorage Storage { get; set; }
+    [Inject] IScenes Scenes { get; set; }
+    [Inject] INetwork Network { get; set; }
+    [Inject] IUIs UIs { get; set; }
+    [Inject] Account Account { get; set; }
+
+    public void Enable() {
+      "Enable".Log("AccountUpdate");
+
+      Account.Id = (uint)UnityEngine.Random.value.Log();
+      Account.Name;
+    }
+
+    public void Disable() {
+      "Disable".Log("AccountUpdate");
+    }
+  }
+
 
   public interface IEnable {
     void Enable();
@@ -38,15 +56,17 @@ namespace Game {
   public interface IRelease {
     void Release();
   }
-
-  public interface IGame : IProcess { }
+  
+  public interface IAccountUpdate : IProcess { }
+  public interface IAccountTest : IProcess { }
+  
   public interface INetwork : ISystem { }
   public interface IStorage : ISystem { }
   public interface IScenes : ISystem { }
   public interface IUIs : ISystem { }
 
   public class Account : IData {
-    [Inject<IStorage> ]public uint Id { get; set; }
+    public uint Id { get; set; }
     public string Name { get; set; }
   }
 
