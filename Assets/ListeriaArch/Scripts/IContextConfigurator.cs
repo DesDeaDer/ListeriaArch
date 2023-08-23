@@ -1,6 +1,10 @@
-﻿namespace ListeriaArch {
+﻿using ListeriaArch.Configurator.Links;
+
+namespace ListeriaArch {
   public interface IContextConfigurator {
-    ILinksConfigurator Links { get; }
     ILayersConfigurator Layers { get; }
+    ILinksConfigurator Links { get; }
+    IResolversConfigurator Resolvers { get; }
+    IResolversRuntimeConfigurator ResolversRuntime { get; }
   }
 }

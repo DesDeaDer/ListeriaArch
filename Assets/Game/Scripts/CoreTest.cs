@@ -1,36 +1,40 @@
 ﻿using Game;
 using ListeriaArch;
+using ListeriaArch.Configurator;
 using UnityEngine;
-using Network = Game.Network;
+using UnityEngine.Rendering.VirtualTexturing;
 
 public class CoreTest : MonoBehaviour {
 
   IContext context;
 
   void OnEnable() {
-    context = new ContextConfigurator()
-      .Links(links => links
-        .Add<IAccountTest, AccountTest>()
-        .Add<IStorage, Storage>()
-        .Add<INetwork, Network>()
-        .Add<IScenes, Scenes>()
-        .Add<IUIs, UIs>())
+    context = Listeria.ArchStrucure()
       .Layers(layers => layers
-        .Layer<IData>()
+        .Layer<IData>() //TODO auto load data
         .Layer<IProcess>(rules => rules
-          .Maybe<IModel>(model => model
+          .Maybe<IModel>(models => models
             .Without<IData>())
-          .Maybe<ISystem>(system => system
+          .Maybe<ISystem>(systems => systems
             .Without<IData>()
             .Need<ISystem>())
           .Maybe<IData>())
-        .Layer<IModel>(model => model
+        .Layer<IModel>(models => models
           .Maybe<IData>())
-        .Layer<ISystem>(system => system
+        .Layer<ISystem>(systems => systems
           .Maybe<IModel>()
           .Maybe<IData>()
           .Maybe<ISystem>()))
-      .Resolve()
+      .Links(links => links
+        .Add<IAccountTest>()
+        .Add<IScenes>()
+      .Add<IUIs>()
+        .Add<IStorage>())
+      .Resolvers(resolvers => resolvers
+        .Add<INetwork>())
+      .ResolversRuntime(resolversRuntime => resolversRuntime
+        .Add<INetwork>())
+      .Build()
       .Run<IEnable>(x => x.Enable);
   }
 

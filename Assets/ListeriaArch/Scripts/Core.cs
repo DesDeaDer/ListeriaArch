@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ListeriaArch.Configurator.Links;
 
 namespace ListeriaArch {
 
@@ -12,7 +13,11 @@ namespace ListeriaArch {
   }
 
   public class Injector {
-    public void Inject(...) { }
+    public void Inject() { }
+  }
+
+  public interface IResolver<T> {
+
   }
 
   public class LayersConfigurator : ILayersConfigurator {
@@ -46,11 +51,23 @@ namespace ListeriaArch {
   public class LayerRuleExcept : LayerRuleBasic { }
 
   public class LinksConfigurator : ILinksConfigurator {
-    public void RegisterType<T>() {
+    public void Register<T>() {
       throw new NotImplementedException();
     }
 
-    public void RegisterType<D, T>() {
+    public void Register<D, T>() {
+      throw new NotImplementedException();
+    }
+  }
+
+  public class ResolversConfigurator : IResolversConfigurator {
+    public void Register<T>() {
+      throw new NotImplementedException();
+    }
+  }
+
+  public class ResolversRuntimeConfigurator : IResolversRuntimeConfigurator {
+    public void Register<T>() {
       throw new NotImplementedException();
     }
   }
@@ -111,27 +128,37 @@ namespace ListeriaArch {
     }
   }
 
-  public static class LinksConfiguratorExtension {
-    public static ILinksConfigurator Add<T>(this ILinksConfigurator configurator) {
-      configurator.RegisterType<T>();
-      return configurator;
-    }
+  public static class ResolversConfiguratorExtension {
+    public static IResolversConfigurator Add<T>(this IResolversConfigurator c) {
+      c.Register<T>();
 
-    public static ILinksConfigurator Add<D, T>(this ILinksConfigurator configurator) {
-      configurator.RegisterType<D, T>();
-      return configurator;
+      return c;
     }
   }
 
-  public interface IContext {
-    void ResolveAll();
+  public static class ResolversRuntimeConfiguratorExtension {
+    public static IResolversRuntimeConfigurator Add<T>(this IResolversRuntimeConfigurator c) {
+      c.Register<T>();
+
+      return c;
+    }
+  }
+
+
+  public interface IRelease {
     void Release();
-    void Processing<T>(Func<T, Action> getProcessing);
+  }
+
+  public interface IContext : IRelease {
+    void ResolveAll(); //TODO temp
+    void Processing<T>(Func<T, Action> getProcessing); //TODO temp
   }
 
   public class ContextConfigurator : IContextConfigurator {
     public ILayersConfigurator Layers { get; init; }
     public ILinksConfigurator Links { get; init; }
+    public IResolversConfigurator Resolvers { get; init; }
+    public IResolversRuntimeConfigurator ResolversRuntime { get; init; }
   }
 
   public class Context : IContext {
@@ -166,25 +193,57 @@ namespace ListeriaArch {
   }
 
   public static class ContextConfiguratorExtension {
-    public static IContextConfigurator Links(this IContextConfigurator c, Action<ILinksConfigurator> proc) {
-      proc(c.Links);
-
-      return c;
-    }
     public static IContextConfigurator Layers(this IContextConfigurator c, Action<ILayersConfigurator> proc) {
       proc(c.Layers);
 
       return c;
     }
+    
+    public static IContextConfigurator Links(this IContextConfigurator c, Action<ILinksConfigurator> proc) {
+      proc(c.Links);
+
+      return c;
+    }
+
+    public static IContextConfigurator Resolvers(this IContextConfigurator c, Action<IResolversConfigurator> proc) {
+      proc(c.Resolvers);
+
+      return c;
+    }
+
+    public static IContextConfigurator ResolversRuntime(this IContextConfigurator c, Action<IResolversRuntimeConfigurator> proc) {
+      proc(c.ResolversRuntime);
+
+      return c;
+    }
+
+    public static IContext Build(this IContextConfigurator c) {
+      var context = Listeria.Context();
+
+      //TODO proc c
+
+      context.ResolveAll();
+
+      return context;
+    }
   }
 
   public static class Listeria {
-    public static IContextConfigurator ConfigurateContext() => new ContextConfigurator() {
+    public static IContext Context() {
+
+      return new Context();
+    }
+
+    public static IContextConfigurator ArchStrucure() => new ContextConfigurator() {
       Layers = ConfigurateLayers(),
       Links = ConfigurateLinks(),
+      Resolvers = ConfigurateResolvers(),
+      ResolversRuntime = ConfigurateResolversRuntime(),
     };
 
     public static ILinksConfigurator ConfigurateLinks() => new LinksConfigurator();
+    public static IResolversConfigurator ConfigurateResolvers() => new ResolversConfigurator();
+    public static IResolversRuntimeConfigurator ConfigurateResolversRuntime() => new ResolversRuntimeConfigurator();
 
     public static ILayersConfigurator ConfigurateLayers() => new LayersConfigurator();
 
