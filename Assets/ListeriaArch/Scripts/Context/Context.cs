@@ -1,10 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using ListeriaArch.Configurator.Layers;
 
 namespace ListeriaArch {
   public class Context : IContext {
-    public ILayersConfigurator CreateLayerRule<T>() {
+    public ILinksCreator LinksCreator { get; init; }
+    public ILinksProvider LinksProvider { get; init; }
+
+    public void Add<T>(T obj) {
+      throw new NotImplementedException();
+    }
+
+    public void Add(ILinksProvider obj) {
+      throw new NotImplementedException();
+    }
+
+    public T Get<T>() {
       throw new NotImplementedException();
     }
 
@@ -17,10 +27,6 @@ namespace ListeriaArch {
     }
 
     public void Release() {
-      throw new NotImplementedException();
-    }
-
-    public void ResolveAll() {
       throw new NotImplementedException();
     }
   }

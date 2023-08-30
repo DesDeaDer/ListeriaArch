@@ -107,7 +107,7 @@ namespace Game {
   public class UIs : IUIs {
     public enum ViewID {
       None = 0,
-      GameLoad = 1,
+      Loader = 1,
     }
 
     IView Get(ViewID viewID) {
@@ -115,5 +115,32 @@ namespace Game {
     }
   }
 
+  namespace UI {
+    public interface IResourceLoader : IProcess { }
+    public interface IResourceLinker : IProcess { }
 
+    public interface IView {
+      void Show();
+      void Hide();
+    }
+    public interface IViewController {
+      IView View { get; }
+    }
+
+    public interface IViewController<T> : IViewController 
+      where T : IView {
+      new T View { get; }
+    }
+
+    public interface IViewData { } //static data
+
+    public interface ILoaderView : IView {
+      void SetText(string text);
+      void SetProgress(float progress);
+    }
+
+    public interface ILoaderViewController : IViewController<ILoaderView> {
+    
+    }
+  }
 }

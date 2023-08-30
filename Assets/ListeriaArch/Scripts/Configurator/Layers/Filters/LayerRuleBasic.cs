@@ -7,7 +7,7 @@ namespace ListeriaArch.Configurator.Layers.Filters {
 
     public IEnumerable<IFilterRule> SubFilters => rules;
 
-    List<IFilterRule> rules = new();
+    readonly List<IFilterRule> rules = new();
 
     public void Add(IFilterRule rule) => rules.Add(rule);
   }

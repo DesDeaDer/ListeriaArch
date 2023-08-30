@@ -13,14 +13,11 @@ namespace ListeriaArch {
       ResolversRuntime = ConfigurateResolversRuntime(),
     };
 
+    public static ILinksCreator LinksCreator(IContextConfigurator contextConfigurator) => new LinksCreator(contextConfigurator);
     public static IContext Context() => new Context();
-
     public static ILinksConfigurator ConfigurateLinks() => new LinksConfigurator();
-
     public static IResolversConfigurator ConfigurateResolvers() => new ResolversConfigurator();
-
     public static IResolversRuntimeConfigurator ConfigurateResolversRuntime() => new ResolversRuntimeConfigurator();
-
     public static ILayersConfigurator ConfigurateLayers() => new LayersConfigurator();
 
     public static IFilterRule ConfigurateFilterRuleBasic<T>() => new LayerRuleBasic() {
@@ -36,6 +33,10 @@ namespace ListeriaArch {
     };
 
     public static IFilterRule ConfigurateFilterRuleMaybe<T>() => new LayerRuleMaybe() {
+      Type = typeof(T),
+    };
+
+    public static IFilterRule ConfigurateFilterRuleRepository<T>() => new LayerRuleRepository() {
       Type = typeof(T),
     };
 

@@ -32,10 +32,12 @@ namespace ListeriaArch.FluidAPI {
 
     public static IContext Build(this IContextConfigurator c) {
       var context = Listeria.Context();
-      
-      //TODO
+      var linksCreator = Listeria.LinksCreator(c);
 
-      context.ResolveAll();
+      //TODO lyaers rulles
+      //TODO link creators
+      //TODO links
+      //TODO setup context
 
       return context;
     }

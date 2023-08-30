@@ -3,6 +3,14 @@ using ListeriaArch.Configurator.Layers.Filters;
 
 namespace ListeriaArch.FluidAPI {
   public static class FilterRuleExtension {
+    public static IFilterRule Repository<T>(this IFilterRule rule) {
+      var repository = Listeria.ConfigurateFilterRuleRepository<T>();
+
+      rule.Add(repository);
+
+      return rule;
+    }
+    
     public static IFilterRule Maybe<T>(this IFilterRule rule) {
       var maybe = Listeria.ConfigurateFilterRuleMaybe<T>();
 

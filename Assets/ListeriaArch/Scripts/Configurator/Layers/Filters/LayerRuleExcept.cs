@@ -1,3 +1,3 @@
 ﻿namespace ListeriaArch.Configurator.Layers.Filters {
-  public class LayerRuleExcept : LayerRuleBasic { }
+  public class LayerRuleExcept : LayerRuleBasic, IFilterExcept { }
 }
